@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody2D RB { get; private set; }
 
+    public AudioSource AudioSource { get; private set; }
+
     public Transform DashDirectionIndicator { get; private set; }
 
     public Vector2 CurrentVelocity { get; private set; }
@@ -45,6 +47,12 @@ public class Player : MonoBehaviour
     private Transform groundCheck;
     [SerializeField]
     private Transform wallCheck;
+
+
+    public AudioClip dash;
+    [SerializeField]
+    AudioClip death;
+
 
     private void Awake()
     {
@@ -67,6 +75,7 @@ public class Player : MonoBehaviour
         Anim = GetComponent<Animator>();
         InputHandler = GetComponent<PlayerInputHandler>();
         RB = GetComponent<Rigidbody2D>();
+        AudioSource = GetComponent<AudioSource>();
         DashDirectionIndicator = transform.Find("DashDirectionIndicator");
 
         FacingDirection = 1;
@@ -121,6 +130,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Respawn()
     {
+        AudioSource.PlayOneShot(death);
         playerData.deaths++;
         StateMachine.ChangeState(DeathState);
         yield return new WaitForSeconds(0.5f);

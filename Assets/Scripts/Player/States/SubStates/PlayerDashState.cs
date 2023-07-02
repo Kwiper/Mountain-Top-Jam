@@ -90,10 +90,12 @@ public class PlayerDashState : PlayerAbilityState
                     player.RB.drag = playerData.drag;
                     player.SetVelocity(playerData.dashVelocity, dashDirection);
                     player.DashDirectionIndicator.gameObject.SetActive(false);
+                    player.AudioSource.PlayOneShot(player.dash);
                 }
             }
             else
             {
+                
                 player.SetVelocity(playerData.dashVelocity, dashDirection);
 
                 if (Time.time >= startTime + playerData.dashTime)
